@@ -11,7 +11,7 @@ function Search({ match }) {
   }
   const [relevant, setRelevant] = useState([]);
   const getResult = async (e) => {
-    const res = await fetch("/api/exams/s", {
+    const res = await fetch("/api/exams/search", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,13 @@ function Search({ match }) {
           return (
             <div className="card" key={exam.id}>
               <h1>
-                <NavLink exact to={`/${exam.abbreviation.replace(/ /g, "_")}`}>
+                <NavLink
+                  exact
+                  to={`/${exam.categoryBase.replace(
+                    / /g,
+                    "_"
+                  )}/${exam.abbreviation.replace(/ /g, "_")}`}
+                >
                   {exam.abbreviation}
                 </NavLink>
               </h1>

@@ -1,4 +1,5 @@
 const express = require("express");
+const authenticate = require("../../middleware/authenticate");
 const State = require("../../models/state");
 const Exam = require("../../models/exam");
 const Detail = require("../../models/details");
@@ -7,21 +8,13 @@ const Admit = require("../../models/admit");
 const Result = require("../../models/result");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  console.log(req.query);
+router.post("/state", async (req, res) => {
   try {
-    Exam.find()
-      .sort({ date: -1 })
-      .limit(20)
-      .then((exams) => res.json(exams));
-  } catch (err) {}
-});
-
-router.get("/state", async (req, res) => {
-  try {
-    State.find()
-      .sort({ date: -1 })
-      .then((exam) => res.json(exam));
+    if (req.body.type === "State") {
+      State.find()
+        .sort({ date: -1 })
+        .then((exam) => res.json(exam));
+    }
   } catch (err) {}
 });
 
@@ -43,12 +36,14 @@ router.post("/category", async (req, res) => {
     }
   } catch (err) {}
 });
+
 router.post("/get", async (req, res) => {
   try {
     const abbreviation = req.body.abbreviation.trim();
     Detail.find({ abbreviation: abbreviation }).then((exam) => res.json(exam));
   } catch (err) {}
 });
+
 router.post("/type", async (req, res) => {
   try {
     switch (req.body.type.trim()) {
@@ -76,6 +71,7 @@ router.post("/type", async (req, res) => {
     }
   } catch (err) {}
 });
+
 router.post("/updates", async (req, res) => {
   try {
     switch (req.body.type.trim()) {
@@ -130,16 +126,12 @@ router.post("/updates", async (req, res) => {
     }
   } catch (err) {}
 });
-router.post("/user", async (req, res) => {
-  try {
-    res.json({ message: req.body.data });
-  } catch (err) {}
-});
-router.post("/s", async (req, res) => {
+
+router.post("/search", async (req, res) => {
   try {
     var result = [];
     var reg = new RegExp(req.body.abbreviation.trim(), "i");
-    var exam = Exam.find({ abbreviation: reg }, { abbreviation: 2 })
+    var exam = Exam.find({ abbreviation: reg })
       .sort({ updated_at: -1 })
       .sort({ created_at: -1 })
       .limit(20);
@@ -152,6 +144,9 @@ router.post("/s", async (req, res) => {
               abbreviation: exa.abbreviation,
               categoryBase: exa.categoryBase,
             };
+            if (exa.categoryBase === "Board Exams") {
+              obj.categoryBase = "state exams/" + exa.categoryMain;
+            }
             result.push(obj);
           });
           res.json(result);
@@ -164,127 +159,10 @@ router.post("/s", async (req, res) => {
   } catch (err) {}
 });
 
-router.post("/add", async (req, res) => {
-  const exam = await Exam.findOne({ abbreviation: req.body.abbreviation });
-
-  if (exam) {
-    res.status(422).json({ message: "Exam Already Exists" });
-  } else {
-    const newExam = new Exam({
-      name: req.body.name,
-      abbreviation: req.body.abbreviation,
-      link: req.body.link,
-      logo: req.body.logo,
-      categoryMain: req.body.categoryMain,
-      categoryBase: req.body.categoryBase,
-    });
-    const newexam = await newExam.save();
-    res.json(newexam);
-  }
-});
-
-router.post("/temp", async (req, res) => {
-  switch (req.body.type.trim()) {
-    case "New_Updates": {
-      const newUpdate = new Update({
-        name: req.body.name,
-        intro: req.body.intro,
-        fee: req.body.fee,
-        date: req.body.date,
-        req: req.body.req,
-        link: req.body.link,
-      });
-      const newupdate = await newUpdate.save();
-      res.json(newupdate);
-      break;
-    }
-    case "Admit_Card": {
-      const newAdmit = new Admit({
-        name: req.body.name,
-        intro: req.body.intro,
-        date: req.body.date,
-        isAvail: req.body.isAvail,
-        link: req.body.link,
-        note: req.body.note,
-      });
-      const newadmit = await newAdmit.save();
-      res.json(newadmit);
-      break;
-    }
-    case "Result": {
-      const newResult = new Result({
-        name: req.body.name,
-        intro: req.body.intro,
-        date: req.body.date,
-        isAvail: req.body.isAvail,
-        link: req.body.link,
-        note: req.body.note,
-      });
-      const newresult = await newResult.save();
-      res.json(newresult);
-      break;
-    }
-    default: {
-      res.json({ message: "Waiting" });
-    }
-  }
-});
-
-router.post("/down", async (req, res) => {
-  const exam = await Detail.findOne({ abbreviation: req.body.abbreviation });
-
-  if (exam) {
-    res.status(422).json({ message: "Exam Already Exists" });
-  } else {
-    const newExam = new Detail({
-      name: req.body.name,
-      abbreviation: req.body.abbreviation,
-      link: req.body.link,
-      logo: req.body.logo,
-      intro: req.body.intro,
-      type: req.body.type,
-      duration: req.body.duration,
-      times: req.body.times,
-      eligibility: req.body.eligibility,
-      language: req.body.language,
-      wikipedia: req.body.wikipedia,
-      regSdate: req.body.regSdate,
-      regEdate: req.body.regEdate,
-      lfeedate: req.body.lfeedate,
-      admit: req.body.admit,
-      examdate: req.body.examdate,
-      genobcfee: req.body.genobcfee,
-      scstfee: req.body.scstfee,
-      phfee: req.body.phfee,
-    });
-    const newexam = await newExam.save();
-    res.json(newexam);
-  }
-});
-
-router.post("/up", async (req, res) => {
+router.post("/user", authenticate, async (req, res) => {
   try {
-    const id = req.body.id;
-    //const data = req.body.data;
-    // const result = await Exam.updateOne(
-    //   { _id: id },
-    //   {
-    //     $set: {
-    //       categoryMain: data,
-    //     },
-    //   },
-    //   { upsert: true }
-    // );
-    Exam.findById(id).then((exam) => {
-      res.json(exam);
-    });
+    res.json({ message: req.body.data });
   } catch (err) {}
-});
-
-router.delete("/del/:id", async (req, res) => {
-  Exam.findById(req.params.id)
-    .then((exam) => exam.remove().then(() => res.json({ success: true })))
-    .catch((err) => res.status(404).json({ success: false }));
 });
 
 module.exports = router;

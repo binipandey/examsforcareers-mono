@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const users = require("./routes/api/users");
 const exams = require("./routes/api/exams");
+const admin = require("./routes/api/admin");
 dotenv.config({ path: "./config.env" });
 const app = express();
 const port = process.env.PORT || 5000;
@@ -160,4 +161,5 @@ app.get("/user/:exams", async (req, res, next) => {
 app.use(express.static(path.resolve(__dirname, "build")));
 app.use("/api/exams", exams);
 app.use("/api/users", users);
+app.use("/admin", admin);
 app.listen(port, () => console.log(`Started on http://localhost:${port}`));

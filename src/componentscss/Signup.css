@@ -92,7 +92,7 @@
   border-bottom-right-radius: 10px;
 }
 
-@media screen and (max-width: 375px) {
+@media all and (orientation: portrait) {
   .mainBox {
     width: 330px;
     height: 460px;

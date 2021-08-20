@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.7f836813.chunk.css",
-    "main.js": "/static/js/main.881c9437.chunk.js",
-    "main.js.map": "/static/js/main.881c9437.chunk.js.map",
+    "main.css": "/static/css/main.5fa0edfc.chunk.css",
+    "main.js": "/static/js/main.93e6bf58.chunk.js",
+    "main.js.map": "/static/js/main.93e6bf58.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.a06e69b5.js",
     "runtime-main.js.map": "/static/js/runtime-main.a06e69b5.js.map",
     "static/js/2.37b03aad.chunk.js": "/static/js/2.37b03aad.chunk.js",
     "static/js/2.37b03aad.chunk.js.map": "/static/js/2.37b03aad.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.7f836813.chunk.css.map": "/static/css/main.7f836813.chunk.css.map",
+    "static/css/main.5fa0edfc.chunk.css.map": "/static/css/main.5fa0edfc.chunk.css.map",
     "static/js/2.37b03aad.chunk.js.LICENSE.txt": "/static/js/2.37b03aad.chunk.js.LICENSE.txt",
     "static/media/Prize.a0cc48ee.svg": "/static/media/Prize.a0cc48ee.svg",
     "static/media/App.css": "/static/media/bg.12cea943.svg",
@@ -32,7 +32,7 @@
   "entrypoints": [
     "static/js/runtime-main.a06e69b5.js",
     "static/js/2.37b03aad.chunk.js",
-    "static/css/main.7f836813.chunk.css",
-    "static/js/main.881c9437.chunk.js"
+    "static/css/main.5fa0edfc.chunk.css",
+    "static/js/main.93e6bf58.chunk.js"
   ]
 }

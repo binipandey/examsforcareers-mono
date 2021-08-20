@@ -10,7 +10,13 @@ function State_Exams() {
   }
   const [states, setState] = useState([]);
   const getState = async () => {
-    const res = await fetch("/api/exams/state");
+    const res = await fetch("/api/exams/state", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ type: "State" }),
+    });
     setState(await res.json());
   };
   useEffect(() => {

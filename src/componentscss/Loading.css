@@ -1,16 +1,23 @@
+:root {
+  --left: 44%;
+  --top: 50%;
+  --anim-left: 58.5%;
+  --stroke-left: 10px;
+  --stroke-portrait: 10px;
+}
 .Loading {
   background-color: white;
 }
 .Loading .center {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-50deg);
+  top: var(--top);
+  left: var(--left);
+  transform: translate(-50%, -50%) rotate(292deg);
   animation: animates 5s linear infinite;
   animation-timing-function: cubic-bezier(0.75, 0.04, 0, 0.86);
 }
 .Loading .pencil {
-  width: 400px;
+  width: 300px;
   height: 34px;
   background: #ffc334;
   border-top: 10px solid #ffd268;
@@ -73,8 +80,8 @@
   height: 2px;
   background: #262626;
   position: absolute;
-  top: 78%;
-  left: 46%;
+  top: calc(var(--top) + 175px);
+  left: calc(var(--left) + 29px);
   transform: translate(-50%, -50%);
   border: none;
 }
@@ -90,32 +97,12 @@
   animation-timing-function: cubic-bezier(0.75, 0.04, 0, 0.86);
 }
 
-@media screen and (max-width: 333px) {
-  .Loading .center {
-    top: 400px;
-    left: 40%;
-    animation: anime 5s linear infinite;
-    animation-timing-function: cubic-bezier(0.75, 0.04, 0, 0.86);
-  }
-  .Loading .pencil {
-    width: 170px;
-  }
-  .Loading .pencil p {
-    text-align: left;
-    text-indent: 10px;
-  }
-  .Loading .stroke::before {
-    animation: animes 5s linear infinite;
-    animation-timing-function: cubic-bezier(0.75, 0.04, 0, 0.86);
-  }
-}
-
 @keyframes animes {
   0% {
     left: 0;
   }
   50% {
-    left: 41%;
+    left: calc(40% + var(--stroke-portrait));
   }
   100% {
     left: 0;
@@ -133,26 +120,89 @@
     left: 40%;
   }
 }
-
 @keyframes animates {
   0% {
-    left: 50%;
+    left: var(--left);
   }
   50% {
-    left: 64.5%;
+    left: var(--anim-left);
   }
   100% {
-    left: 50%;
+    left: var(--left);
   }
 }
+
 @keyframes animate {
   0% {
     left: 0;
   }
   50% {
-    left: 100%;
+    left: calc(var(--anim-left) + var(--stroke-left));
   }
   100% {
     left: 0;
+  }
+}
+@media screen and (max-width: 1442px) {
+  :root {
+    --anim-left: 58%;
+    --stroke-left: 85px;
+  }
+}
+@media screen and (max-width: 1025px) {
+  :root {
+    --stroke-left: 30.5px;
+    --anim-left: 58.5%;
+  }
+}
+@media screen and (max-width: 770px) {
+  :root {
+    --stroke-left: -5px;
+  }
+}
+@media screen and (max-width: 426px) {
+  :root {
+    --stroke-portrait: 27px;
+  }
+  .Loading .stroke {
+    left: calc(var(--left) + 35px);
+  }
+}
+@media screen and (max-width: 376px) {
+  :root {
+    --stroke-portrait: 15px;
+  }
+  .Loading .stroke {
+    left: calc(var(--left) + 37px);
+  }
+}
+@media screen and (max-width: 322px) {
+  :root {
+    --stroke-portrait: 2px;
+  }
+  .Loading .stroke {
+    left: calc(var(--left) + 39px);
+  }
+}
+@media all and (orientation: portrait) {
+  .Loading .center {
+    top: var(--top);
+    left: var(--left);
+    animation: anime 5s linear infinite;
+    animation-timing-function: cubic-bezier(0.75, 0.04, 0, 0.86);
+  }
+  .Loading .stroke {
+    top: calc(var(--top) + 115px);
+  }
+  .Loading .pencil {
+    width: 170px;
+  }
+  .Loading .pencil p {
+    text-align: left;
+    text-indent: 10px;
+  }
+  .Loading .stroke::before {
+    animation: animes 5s linear infinite;
+    animation-timing-function: cubic-bezier(0.75, 0.04, 0, 0.86);
   }
 }

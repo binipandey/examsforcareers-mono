@@ -6,7 +6,7 @@ function Loading() {
     document.title = "Loading";
   }
   return (
-    <div className="Loading">
+    <div id="Loading" className="Loading">
       <div className="center">
         <div className="pencil">
           <p>Examsforcareers.com</p>

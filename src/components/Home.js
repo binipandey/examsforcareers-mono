@@ -54,7 +54,7 @@ function Home() {
   const getResult = async (e) => {
     if (searchWord) {
       try {
-        const res = await fetch("/api/exams/s", {
+        const res = await fetch("/api/exams/search", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

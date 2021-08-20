@@ -4,7 +4,10 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 
 if (typeof window !== "undefined") {
-  ReactDOM.hydrate(
+  window.addEventListener("load", () => {
+    console.log("[log]Loaded App");
+  });
+  ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
         <App />

@@ -118,7 +118,7 @@
   height: 40px;
   background-color: #00bcd4;
 }
-@media screen and (max-width: 375px) {
+@media all and (orientation: portrait) {
   .contactBody {
     margin-bottom: 310px;
   }
