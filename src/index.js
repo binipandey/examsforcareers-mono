@@ -7,7 +7,7 @@ if (typeof window !== "undefined") {
   window.addEventListener("load", () => {
     console.log("[log]Loaded App");
   });
-  ReactDOM.render(
+  ReactDOM.hydrate(
     <React.StrictMode>
       <BrowserRouter>
         <App />
