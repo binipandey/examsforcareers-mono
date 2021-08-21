@@ -6,6 +6,7 @@
   --stroke-portrait: 10px;
 }
 .Loading {
+  display: block;
   background-color: white;
 }
 .Loading .center {

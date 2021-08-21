@@ -5,11 +5,15 @@
   color: white;
   box-sizing: border-box;
 }
+link {
+  display: none;
+}
 :root {
   --theme-color: rgb(0, 183, 255);
 }
 .App {
   position: absolute;
+  display: none;
   top: 0;
   left: 0;
   right: 0;
