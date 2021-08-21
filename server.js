@@ -48,6 +48,58 @@ const readFile = () => {
   });
 };
 readFile();
+app.get("/favicon.ico", async (req, res, next) => {
+  fs.readFile(path.resolve("./build/favicon.ico"), (err, data) => {
+    if (err) {
+      console.log(err);
+      return true;
+    }
+    if (!data) {
+      res.status(500).send("Error In Server");
+    } else {
+      res.send(data);
+    }
+  });
+});
+app.get("/manifest.json", async (req, res, next) => {
+  fs.readFile(path.resolve("./build/manifest.json"), (err, data) => {
+    if (err) {
+      console.log(err);
+      return true;
+    }
+    if (!data) {
+      res.status(500).send("Error In Server");
+    } else {
+      res.send(data);
+    }
+  });
+});
+app.get("/robots.txt", async (req, res, next) => {
+  fs.readFile(path.resolve("./build/robots.txt"), (err, data) => {
+    if (err) {
+      console.log(err);
+      return true;
+    }
+    if (!data) {
+      res.status(500).send("Error In Server");
+    } else {
+      res.send(data);
+    }
+  });
+});
+app.get("/asset-manifest.json", async (req, res, next) => {
+  fs.readFile(path.resolve("./build/asset-manifest.json"), (err, data) => {
+    if (err) {
+      console.log(err);
+      return true;
+    }
+    if (!data) {
+      res.status(500).send("Error In Server");
+    } else {
+      res.send(data);
+    }
+  });
+});
 app.get("/:route", async (req, res, next) => {
   const app = render(req.url);
   if (indexFile === true) {
