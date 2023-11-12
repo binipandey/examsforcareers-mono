@@ -1,22 +1,27 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-import App from "./src/App.js";
 import { StaticRouter } from "react-router-dom";
-const fs = require("fs");
-const path = require("path");
-const dotenv = require("dotenv");
-const express = require("express");
-const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
+import fs from "fs";
+import path from "path";
+import dotenv from "dotenv";
+import express from "express";
+import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
+
 const users = require("./routes/api/users");
 const exams = require("./routes/api/exams");
 const admin = require("./routes/api/admin");
-dotenv.config({ path: "./config.env" });
+import App from "./src/App.js";
+
+dotenv.config({ path: ".env" });
+
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(path.resolve(__dirname, "build")));
+
 mongoose.connect(`${process.env.MONGO_URL}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -28,6 +33,7 @@ mongoose.connection
   .on("error", (error) => {
     console.log(error);
   });
+
 const context = {};
 const render = (url) => {
   return ReactDOMServer.renderToString(
@@ -48,58 +54,6 @@ const readFile = () => {
   });
 };
 readFile();
-app.get("/favicon.ico", async (req, res, next) => {
-  fs.readFile(path.resolve("./build/favicon.ico"), (err, data) => {
-    if (err) {
-      console.log(err);
-      return true;
-    }
-    if (!data) {
-      res.status(500).send("Error In Server");
-    } else {
-      res.send(data);
-    }
-  });
-});
-app.get("/manifest.json", async (req, res, next) => {
-  fs.readFile(path.resolve("./build/manifest.json"), (err, data) => {
-    if (err) {
-      console.log(err);
-      return true;
-    }
-    if (!data) {
-      res.status(500).send("Error In Server");
-    } else {
-      res.send(data);
-    }
-  });
-});
-app.get("/robots.txt", async (req, res, next) => {
-  fs.readFile(path.resolve("./build/robots.txt"), (err, data) => {
-    if (err) {
-      console.log(err);
-      return true;
-    }
-    if (!data) {
-      res.status(500).send("Error In Server");
-    } else {
-      res.send(data);
-    }
-  });
-});
-app.get("/asset-manifest.json", async (req, res, next) => {
-  fs.readFile(path.resolve("./build/asset-manifest.json"), (err, data) => {
-    if (err) {
-      console.log(err);
-      return true;
-    }
-    if (!data) {
-      res.status(500).send("Error In Server");
-    } else {
-      res.send(data);
-    }
-  });
-});
 app.get("/:route", async (req, res, next) => {
   const app = render(req.url);
   if (indexFile === true) {
@@ -210,7 +164,6 @@ app.get("/user/:exams", async (req, res, next) => {
     );
   }
 });
-app.use(express.static(path.resolve(__dirname, "build")));
 app.use("/api/exams", exams);
 app.use("/api/users", users);
 app.use("/admin", admin);
